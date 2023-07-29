@@ -1,0 +1,14 @@
+{
+  "name": "fullstack",
+  "version": "1.0.0",
+  "description": "Fullstack app using Vue and Node(MEVN stack)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sibichandru Rajendran",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
