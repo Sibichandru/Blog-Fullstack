@@ -1,8 +1,3 @@
-/*
-	Implement hashed password using bcrypt
-	Provide JWT token for Authentication
-	Implement email/username login
-*/ 
 
 import bcrypt from "bcryptjs";
 import userModel from "../../model/userModel/user.model.js";
@@ -19,7 +14,7 @@ const login = async (req, res, next) => {
     console.log("no user found");
     return res.status(404).json({ message: "No User Found!" });
   }
-  const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
+  const isPasswordCorrect = await bcrypt.compareSync(password, existingUser.password);
   if (!isPasswordCorrect) {
     console.log("password incorrect");
     return res.status(400).json({ message: "password invalid" });

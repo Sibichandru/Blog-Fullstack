@@ -50,8 +50,8 @@ export default {
 				});
 
 				if (response.status == 200) {
-					// alert('Signup successful!');
-					this.$router.push('/login');
+					alert('Signup successful!');
+					// this.$router.push('/login');
 				} else {
 					alert('Signup failed. Please try again.');
 				}
