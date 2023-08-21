@@ -1,5 +1,5 @@
 import userModel from "../../model/userModel/user.model.js";
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 
 const signup = async (req, res) => {
   const { name, username, email, password } = req.body;
@@ -21,12 +21,13 @@ const signup = async (req, res) => {
       console.log("existing name");
       return res.status(404).json({ message: "Try different Username" });
     } else {
-      let hashedPass = await bcrypt.hashSync(password, 20);
+      // let hashedPass = await bcrypt.hashSync(password, 20);
       const user = new userModel({
         name,
         email,
         username,
-        password: hashedPass,
+        // password: hashedPass,
+        password,
         blogs: [],
       });
       try {

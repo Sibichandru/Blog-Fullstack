@@ -1,25 +1,29 @@
-
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
+import * as dotenv from 'dotenv' 
+dotenv.config()
 import userModel from "../../model/userModel/user.model.js";
+import jwt from "jsonwebtoken";
 
 const login = async (req, res, next) => {
+  let secret = process.env.SECRET;
   const { username, password } = req.body;
   let existingUser;
   try {
     existingUser = await userModel.findOne({ username });
-  } catch (err) {
-    return console.log(err);
+    let passOk = password === existingUser.password;
+    if (passOk){
+      jwt.sign({ id: existingUser._id,username}, secret,{},(err,token)=>{
+        if (err) throw err;
+        console.log(token);
+        res.cookie('token',token,{httpOnly:true,path:'/',sameSite:'none',secure:true}).json('ok')
+      });
+    }
+    else{
+      return res.status(401).json({ message: "Invalid Credentials" });
+    }
+  } catch (error) {
+    console.log(error);
   }
-  if (!existingUser) {
-    console.log("no user found");
-    return res.status(404).json({ message: "No User Found!" });
-  }
-  const isPasswordCorrect = await bcrypt.compareSync(password, existingUser.password);
-  if (!isPasswordCorrect) {
-    console.log("password incorrect");
-    return res.status(400).json({ message: "password invalid" });
-  }
-  return res.status(200).json({ message: "Login Successful" });
 };
 
 export default login;
