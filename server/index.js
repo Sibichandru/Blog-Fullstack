@@ -7,10 +7,10 @@ import cookieParser from 'cookie-parser';
 import userRoute from './routes/userRoute.js'
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3111;
 app.use(cookieParser());
 
-const allowedOrigins = ['http://localhost:8080'];
+const allowedOrigins = ['http://localhost:8080','http://localhost:3111'];
 app.use(cors({
   origin: (origin, callback) => {
     callback(null, allowedOrigins.includes(origin));
@@ -23,7 +23,7 @@ app.use(express.json());
 app.use('/api/user',userRoute);
 
 mongoose
-  .connect('mongodb://127.0.0.1:27017/blog?directConnection=true',)//change to env file
+  .connect(process.env.MONGO_URI,)
   .then(() => {
     console.log('Connected to MongoDB');
   })

@@ -38,8 +38,7 @@
 					credentials: 'include'
 					});
 					if(response.ok){
-						console.log(response);
-						this.$router.push('/');
+						await this.$router.push('/');
 					}else{
 						alert('incorrect credentials');
 					}

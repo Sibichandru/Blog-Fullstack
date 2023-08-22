@@ -1,6 +1,6 @@
 import userModel from "../../model/userModel/user.model.js";
 
-export const userDetail = async (req,res)=>{
+const userDetail = async (req,res)=>{
 	const username = req.params.username;
 	console.log(username);
 	try {
@@ -11,3 +11,5 @@ export const userDetail = async (req,res)=>{
 		console.log(error);
 	}
 }
+
+export default userDetail;

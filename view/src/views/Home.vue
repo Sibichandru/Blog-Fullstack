@@ -1,8 +1,11 @@
 <template>
   <div>
-    <nav>
+    <nav v-if="!loggedIn">
       <router-link to="/login">Login</router-link> |
       <router-link to="/signup">Signup</router-link>
+    </nav>
+    <nav v-else>
+      <button v-on:click="logout">Logout</button>
     </nav>
     <!-- <div class="navbar">
       <div class="logo">Blog Website</div>
@@ -26,11 +29,11 @@
 
 
 <script>
-import { onBeforeMount, onMounted } from 'vue';
-
 export default {
   data() {
     return {
+      user:'',
+      loggedIn: false,
       blogs: [
         {
           id: 1,
@@ -48,21 +51,39 @@ export default {
       ]
     };
   },
-  beforeMount() {
-    onBeforeMount(async () => {
+  methods: {
+    async authenticate() {
       try {
-        await fetch('http://127.0.0.1:3111/api/user/authenticated', {
-          method: 'POST',
+        const response = await fetch('http://127.0.0.1:3111/api/user/authenticated', {
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json'
           },
           credentials: 'include'
-        }) ;
+        });
+        if (response.status == 200) {
+          this.loggedIn = true;
+          this.user = await response.json();
+        }
+        // console.log(this.user.username);
       }
       catch (error) {
         console.log(error);
       }
-    })
+    },
+    logout() {
+      const response = fetch('http://127.0.0.1:3111/api/user/logout', {
+        method: 'POST',
+        credentials: 'include'
+      })
+      if(response.ok){
+        this.loggedIn = false;
+        window.location.reload();
+      }
+    }
+  },
+  created() {
+    this.authenticate();
   }
 };
 </script>
