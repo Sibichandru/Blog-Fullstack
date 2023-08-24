@@ -64,26 +64,32 @@ export default {
         if (response.status == 200) {
           this.loggedIn = true;
           this.user = await response.json();
+        }else{
+          this.loggedIn = false;
         }
-        // console.log(this.user.username);
       }
       catch (error) {
         console.log(error);
       }
     },
-    logout() {
-      const response = fetch('http://127.0.0.1:3111/api/user/logout', {
+    async logout() {
+      const response =await fetch('http://127.0.0.1:3111/api/user/logout', {
         method: 'POST',
         credentials: 'include'
       })
       if(response.ok){
         this.loggedIn = false;
-        window.location.reload();
       }
+      location.reload();
     }
+  },    
+    created() {
+      this.authenticate();
   },
-  created() {
-    this.authenticate();
+  watch:{
+    loggedIn(){
+      location.reload;
+    }
   }
 };
 </script>
