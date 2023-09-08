@@ -25,9 +25,11 @@ export default {
           },
           credentials: 'include'
         });
-				console.log(response.username);
         if (response.status == 200) {
           this.loggedIn = true;
+          let user = await response.json();
+          this.user._id = user._id;
+          console.log(this.user._id);
         }
       }
       catch (error) {
@@ -41,4 +43,5 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>
