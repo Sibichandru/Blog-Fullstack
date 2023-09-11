@@ -1,18 +1,5 @@
+// import { json } from "body-parser";
 import jwt from "jsonwebtoken";
-
-// export const isAuthenticated = (req, res)=>{
-// 	// console.log(req.cookies)
-// 	// if(req.cookies.token == ""){
-// 	// 	// console.log(1);
-// 	// 	return res.status(403);
-// 	// }else
-// 	{
-// 		jwt.verify(req.cookies.token, process.env.SECRET, (err,user) => {
-// 			if (err) return res.status(403);
-// 			res.json(user).status(200);
-// 		});
-// 	}
-// }
 
 export const isAuthenticated = (req, res)=>{
 	{
@@ -26,13 +13,16 @@ export const isAuthenticated = (req, res)=>{
 			}
 
 			jwt.verify(token.token, process.env.SECRET, (err,user) => {
-					if (err) return res.status(403);
-					res.json(user).status(200);
+					if (err) return res.status(401).json({
+							ok: false,
+							message: 'Authentication token is not valid.'
+					});
+					res.status(200).json(user);
 			});
 	}
 }
  
 export const logout = (req,res)=>{
-	return res.cookie('token',"",{httpOnly:true,path:'/',sameSite:'none',secure:true}).json('ok')
+	res.cookie('token','',{httpOnly:true,path:'/',sameSite:'none',secure:true}).json('ok');
 }
 

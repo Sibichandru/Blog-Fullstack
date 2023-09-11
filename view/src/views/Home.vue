@@ -29,26 +29,12 @@
 
 
 <script>
+import { clearCookie } from '@/cookieUtils';
 export default {
   data() {
     return {
-      user:'',
+      user: '',
       loggedIn: false,
-      blogs: [
-        {
-          id: 1,
-          title: 'Blog 1 Title',
-          summary: 'Summary of Blog 1 content...',
-          image: 'blog1.jpg'
-        },
-        {
-          id: 2,
-          title: 'Blog 2 Title',
-          summary: 'Summary of Blog 2 content...',
-          image: 'blog2.jpg'
-        }
-        // Add more blog items as needed
-      ]
     };
   },
   methods: {
@@ -64,7 +50,8 @@ export default {
         if (response.status == 200) {
           this.loggedIn = true;
           this.user = await response.json();
-        }else{
+          this.createCookie();
+        } else {
           this.loggedIn = false;
         }
       }
@@ -72,22 +59,26 @@ export default {
         console.log(error);
       }
     },
+    createCookie() {
+      document.cookie = `user=${this.user.id}`
+    },
     async logout() {
       const response =await fetch('http://127.0.0.1:3111/api/user/logout', {
         method: 'POST',
         credentials: 'include'
       })
       if(response.ok){
+        document.cookie = `user=`
         this.loggedIn = false;
       }
       location.reload();
     }
-  },    
-    created() {
-      this.authenticate();
   },
-  watch:{
-    loggedIn(){
+  mounted() {
+    this.authenticate();
+  },
+  watch: {
+    loggedIn() {
       location.reload;
     }
   }
@@ -95,7 +86,6 @@ export default {
 </script>
 
 <style>
-/* CSS styles for the navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -113,7 +103,6 @@ export default {
   font-size: 18px;
 }
 
-/* CSS styles for the blog list */
 .blog-list {
   list-style-type: none;
   padding: 0;
@@ -142,19 +131,3 @@ export default {
   font-size: 16px;
 }
 </style>
-
-
-<!-- mounted() {
-	onMounted(async () => {
-		try {
-			const response = await fetch('http://example.com/api/blogs');
-			if (response.ok) {
-				this.blogs = await response.json();
-			} else {
-				console.error('Failed to fetch blogs:', response.status);
-			}
-		} catch (error) {
-			console.error('An error occurred while fetching blogs:', error);
-		}
-	});
-} -->

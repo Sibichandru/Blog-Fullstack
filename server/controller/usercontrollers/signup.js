@@ -6,12 +6,11 @@ const signup = async (req, res) => {
   let existingUser, existingUserName;
   try {
     existingUser = await userModel.findOne({ email });
-    // console.log(existingUserName);
   } catch (error) {
     console.log(error);
   }
   if (existingUser) {
-    console.log('user already in the DB');
+    console.log("user already in the DB");
     return res
       .status(404)
       .json({ message: "Already registered,Want to login" });

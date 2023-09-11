@@ -19,7 +19,7 @@ const userSchema = new Schema({
 	password:{
 		type:'string',
 		required: true,
-		minlength: 8,
+		minlength: 5,
 	},
 	blogs:[{
 		type:mongoose.Types.ObjectId,
