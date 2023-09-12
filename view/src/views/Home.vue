@@ -1,57 +1,59 @@
 <template>
   <div>
-    <nav v-if="!loggedIn">
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/signup">Signup</router-link>
-    </nav>
-    <nav v-else>
-      <button v-on:click="logout">Logout</button>
-    </nav>
-    <!-- <div class="navbar">
-      <div class="logo">Blog Website</div>
-      <div class="login">
-        <a href="signin.html">Sign In</a> / <a href="login.html">Login</a>
-      </div> -->
-    <!-- </div> -->
+    <section>
+      <nav class="navbar" v-if="!loggedIn">
+        <router-link to="/login">Login</router-link> |
+        <router-link to="/signup">Signup</router-link>
+      </nav>
+      <nav  class="navbar" v-else>
+        <button v-on:click="logout">Logout</button>
+      </nav>
+    </section>
 
-    <!-- Blog List
-    <ul class="blog-list">
-      <li v-for="blog in blogs" :key="blog.id">
-        <img :src="blog.image" :alt="blog.title">
-        <div>
-          <div class="title">{{ blog.title }}</div>
-          <div class="summary">{{ blog.summary }}</div>
-        </div>
-      </li>
-    </ul> -->
+    <section v-if="loggedIn">
+      <Post v-for="post in posts" :key="post.id" :image-url="post.imageUrl" />
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <form @submit.prevent='addPost' method="post">
+          <input type="file" name="post" id="postBtn">
+        </form>
+      </div>
+    </footer>
   </div>
 </template>
 
 
 <script>
-import { clearCookie } from '@/cookieUtils';
+import Post from './Post.vue'
 export default {
   data() {
     return {
-      user: '',
+      user: "",
       loggedIn: false,
+      posts: [
+        { id: 1, imageUrl: "path_to_image_1.jpg" },
+        { id: 2, imageUrl: "path_to_image_2.jpg" },//images will be BSON files
+      ],
     };
   },
   methods: {
     async authenticate() {
       try {
-        const response = await fetch('http://127.0.0.1:3111/api/user/authenticated', {
-          method: 'GET',
+        const response = await fetch("http://127.0.0.1:3111/api/user/authenticated", {
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
           },
-          credentials: 'include'
+          credentials: "include"
         });
         if (response.status == 200) {
           this.loggedIn = true;
           this.user = await response.json();
           this.createCookie();
-        } else {
+        }
+        else {
           this.loggedIn = false;
         }
       }
@@ -59,20 +61,23 @@ export default {
         console.log(error);
       }
     },
+    async addPost(){
+
+    },
     createCookie() {
-      document.cookie = `user=${this.user.id}`
+      document.cookie = `user=${this.user.id}`;
     },
     async logout() {
-      const response =await fetch('http://127.0.0.1:3111/api/user/logout', {
-        method: 'POST',
-        credentials: 'include'
-      })
-      if(response.ok){
-        document.cookie = `user=`
+      const response = await fetch("http://127.0.0.1:3111/api/user/logout", {
+        method: "POST",
+        credentials: "include"
+      });
+      if (response.ok) {
+        document.cookie = `user=`;
         this.loggedIn = false;
       }
       location.reload();
-    }
+    },
   },
   mounted() {
     this.authenticate();
@@ -81,11 +86,12 @@ export default {
     loggedIn() {
       location.reload;
     }
-  }
+  },
+  components: { Post }
 };
 </script>
 
-<style>
+<style scoped>
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -94,40 +100,14 @@ export default {
   background-color: #f0f0f0;
 }
 
-.navbar .logo {
-  font-size: 24px;
-  font-weight: bold;
+.navbar a {
+  text-decoration: none;
+  color: #333;
 }
-
-.navbar .login {
-  font-size: 18px;
-}
-
-.blog-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 20px;
-}
-
-.blog-list li {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.blog-list li img {
-  width: 150px;
-  height: 150px;
-  margin-right: 20px;
-}
-
-.blog-list li .title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.blog-list li .summary {
-  font-size: 16px;
+.navbar button {
+  text-decoration: none;
+  background-color: blue;
 }
 </style>
+
+

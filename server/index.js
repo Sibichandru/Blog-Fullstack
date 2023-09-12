@@ -5,6 +5,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 import userRoute from './routes/userRoute.js'
+import postRoute from './routes/postRoute.js'
 
 const app = express();
 const port = process.env.PORT || 3111;
@@ -21,6 +22,8 @@ app.use(cors({
 app.use(express.json());
 
 app.use('/api/user',userRoute);
+
+app.use('/api/post',postRoute);
 
 mongoose
   .connect(process.env.MONGO_URI,)
