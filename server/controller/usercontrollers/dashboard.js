@@ -1,4 +1,3 @@
-import { Mongoose } from "mongoose";
 import userModel from "../../model/userModel/user.model.js";
 
 const dashboard = async (req,res)=>{

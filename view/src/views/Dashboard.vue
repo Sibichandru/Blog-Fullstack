@@ -1,18 +1,21 @@
 <template>
   <div v-if="loggedIn">
     <h1>Dashboard</h1>
-  </div>
-  <div v-else>
-    <h1>Login</h1>
+    <form @submit.prevent="" method="post">
+      <input type="text" v-model="data.name" /> 
+      
+    </form>
   </div>
 </template>
 
 <script>
 import { getCookie } from '@/cookieUtils';
+import router from '@/router';
 export default {
   data() {
     return {
       user: getCookie('user'),
+      data: {},
       loggedIn: false,
     }
   },
@@ -55,18 +58,27 @@ export default {
           },
           credentials: 'include'
         });
-        console.log(profileLoader.json.data);
+        try {
+          var data = await (profileLoader.json());
+          this.data = data
+          // console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        this.loggedIn = false;
+        router.push('/login');
       }
     },
-      createCookie() {
-        document.cookie = `user=${this.user.id}`
-      },
+    createCookie() {
+      document.cookie = `user=${this.user.id}`
     },
-    async created() {
-      // await this.authenticate();
-      await this.loadProfile();
-    }
+  },
+   beforeMount() {
+    // await this.authenticate();
+     this.loadProfile();
   }
+}
 </script>
 
 <style scoped></style>
