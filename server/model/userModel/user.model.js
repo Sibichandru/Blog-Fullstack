@@ -21,9 +21,9 @@ const userSchema = new Schema({
 		required: true,
 		minlength: 5,
 	},
-	blogs:[{
+	post:[{
 		type:mongoose.Types.ObjectId,
-		ref:'blog',
+		ref:'post',
 		required :'false'
 	}]
 });

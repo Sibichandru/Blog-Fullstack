@@ -8,8 +8,9 @@ const postSchema = new Schema({
 		required:false
 	},
 	image:{
-		type:'buffer',
-		required:true
+		data:Buffer,
+		required:false,
+		contentType: String
 	},
 	time:{
 		type:'string',
