@@ -2,18 +2,14 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const blogSchema = new Schema({
-	title:{
+const postSchema = new Schema({
+	caption:{
 		type:'string',
-		required: true,
+		required:false
 	},
-	description:{
-		type:'string',
+	image:{
+		type:'buffer',
 		required:true
-	},
-	content:{
-		type:'string',
-		required:true,
 	},
 	time:{
 		type:'string',
@@ -27,4 +23,4 @@ const blogSchema = new Schema({
 
 });
 
-export default mongoose.model("blog",blogSchema);
+export default mongoose.model("post",postSchema);

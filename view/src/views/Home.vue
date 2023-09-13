@@ -5,22 +5,25 @@
         <router-link to="/login">Login</router-link> |
         <router-link to="/signup">Signup</router-link>
       </nav>
-      <nav  class="navbar" v-else>
+      <nav class="navbar" v-else>
         <button v-on:click="logout">Logout</button>
       </nav>
     </section>
 
     <section v-if="loggedIn">
+
       <Post v-for="post in posts" :key="post.id" :image-url="post.imageUrl" />
+
+      <footer class="footer">
+        <div class="container">
+          <form @submit.prevent='addPost' method="post">
+            <input type="file" name="post" id="postBtn">
+          </form>
+        </div>
+      </footer>
     </section>
 
-    <footer class="footer">
-      <div class="container">
-        <form @submit.prevent='addPost' method="post">
-          <input type="file" name="post" id="postBtn">
-        </form>
-      </div>
-    </footer>
+
   </div>
 </template>
 
@@ -33,8 +36,7 @@ export default {
       user: "",
       loggedIn: false,
       posts: [
-        { id: 1, imageUrl: "path_to_image_1.jpg" },
-        { id: 2, imageUrl: "path_to_image_2.jpg" },//images will be BSON files
+        //images will be BSON files
       ],
     };
   },
@@ -51,6 +53,7 @@ export default {
         if (response.status == 200) {
           this.loggedIn = true;
           this.user = await response.json();
+          // console.log(this.user);
           this.createCookie();
         }
         else {
@@ -61,8 +64,19 @@ export default {
         console.log(error);
       }
     },
-    async addPost(){
+    async addPost() {
 
+    },
+    async loadPost() {
+      const response = await fetch(`http://127.0.0.1:3111/api/post/posts`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      console.log(data);
     },
     createCookie() {
       document.cookie = `user=${this.user.id}`;
@@ -79,8 +93,11 @@ export default {
       location.reload();
     },
   },
-  mounted() {
+  created() {
     this.authenticate();
+  },
+  mounted() {
+    this.loadPost();
   },
   watch: {
     loggedIn() {
@@ -94,7 +111,7 @@ export default {
 <style scoped>
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: right;
   align-items: center;
   padding: 20px;
   background-color: #f0f0f0;
@@ -104,6 +121,7 @@ export default {
   text-decoration: none;
   color: #333;
 }
+
 .navbar button {
   text-decoration: none;
   background-color: blue;

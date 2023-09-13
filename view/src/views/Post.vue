@@ -4,13 +4,17 @@
       <img :src="imageUrl" alt="Image" />
     </div>
     <div class="actions-container">
+      <button @click="likePost">Like</button>
       <div class="likes">Likes: {{ likes }}</div>
-      <div class="comments">
+
+      <!-- create a new comment component -->
+      <!-- <div class="comments">
         <div v-for="comment in comments" :key="comment.id" class="comment">
           {{ comment.text }}
         </div>
         <input v-model="newComment" @keyup.enter="addComment" placeholder="Add a comment..." />
-      </div>
+      </div> -->
+
     </div>
   </div>
 </template>
@@ -23,20 +27,27 @@ export default {
   data() {
     return {
       likes: 0,
-      comments: [],
-      newComment: "",
+      liked: false,
+      // comments: [],
+      // newComment: "",
     };
   },
   methods: {
     likePost() {
-      this.likes++;
-    },
-    addComment() {
-      if (this.newComment.trim() !== "") {
-        this.comments.push({ id: Date.now(), text: this.newComment });
-        this.newComment = "";
+      if (this.liked) {
+        this.likes--;
+        this.liked = false;
+      } else {
+        this.likes++;
+        this.liked = true;
       }
     },
+    // addComment() {
+    //   if (this.newComment.trim() !== "") {
+    //     this.comments.push({ id: Date.now(), text: this.newComment });
+    //     this.newComment = "";
+    //   }
+    // },
   },
 };
 </script>
@@ -82,14 +93,3 @@ export default {
 
 
 
-<!-- async loadPost() {
-  const response = await fetch(`http://127.0.0.1:3111/api/post/posts`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-  });
-  const data = await response.json();
-  console.log(data);
-}, -->
