@@ -9,7 +9,6 @@ const postSchema = new Schema({
 	},
 	image:{
 		data:Buffer,
-		required:false,
 		contentType: String
 	},
 	time:{

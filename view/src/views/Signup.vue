@@ -1,29 +1,30 @@
 <template>
-	<div class="signup-form">
-		<h2>Sign Up</h2>
+	<h2 class="title head has-text-centered">Sign Up</h2>
+	<div class="container is-flex is-justify-content-center">
 		<form @submit.prevent="signup">
-			<div class="form-group">
-				<label for="username">Username:</label>
-				<input type="text" id="username" v-model="username" required>
+			<div class="field">
+				<label class="label " for="username">Username:</label>
+				<input class="input is-primary" type="text" id="username" v-model="username" required>
 			</div>
-			<div class="form-group">
-				<label for="name">Name:</label>
-				<input type="text" id="name" v-model="name" required>
+			<div class="field">
+				<label class="label" for="name">Name:</label>
+				<input class="input is-primary" type="text" id="name" v-model="name" required>
 			</div>
-			<div class="form-group">
-				<label for="email">Email:</label>
-				<input type="email" id="email" v-model="email" required>
+			<div class="field">
+				<label class="label" for="email">Email:</label>
+				<input class="input is-primary" type="email" id="email" v-model="email" required>
 			</div>
-			<div class="form-group">
-				<label for="password">Password:</label>
-				<input type="password" id="password" v-model="password" required>
+			<div class="field">
+				<label class="label" for="password">Password:</label>
+				<input class="input is-primary" type="password" id="password" v-model="password" required>
 			</div>
-				<button type="submit">Sign Up</button>
+			<button type="submit" class="button btn is-primary">Sign Up</button>
 		</form>
 	</div>
 </template>
 
 <script>
+// import 'bulma/css/bulma.css'
 export default {
 	data() {
 		return {
@@ -45,7 +46,7 @@ export default {
 						username: this.username,
 						email: this.email,
 						password: this.password,
-						name:this.name
+						name: this.name
 					})
 				});
 
@@ -65,28 +66,10 @@ export default {
 </script>
 
 <style scoped>
-.signup-form {
-	max-width: 300px;
-	margin: 0 auto;
+.head{
+	margin-top: 5%;
 }
-
-.form-group {
-	margin-bottom: 10px;
+.btn{
+	margin-top: 2%;
 }
-
-label {
-	display: block;
-}
-
-input {
-	width: 100%;
-	padding: 5px;
-}
-
-button {
-	padding: 5px 10px;
-	background-color: #007bff;
-	color: white;
-	border: none;
-	cursor: pointer;
-}</style>
+</style>

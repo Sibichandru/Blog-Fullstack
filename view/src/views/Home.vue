@@ -6,24 +6,26 @@
         <router-link to="/signup">Signup</router-link>
       </nav>
       <nav class="navbar" v-else>
-        <button v-on:click="logout">Logout</button>
+        <button class="button">
+          <font-awesome-icon :icon="['fas', 'circle-xmark']" />
+        </button>
+        <button class="button is-primary" v-on:click="logout">Logout</button>
       </nav>
     </section>
-
     <section v-if="loggedIn">
-
-      <Post v-for="post in posts" :key="post.id" :image-url="post.imageUrl" />
-
+      <!-- <Post v-for="post in posts" :key="post.id" :image-url="post.imageUrl" /> -->
       <footer class="footer">
         <div class="container">
-          <form @submit.prevent='addPost' method="post">
-            <input type="file" name="post" id="postBtn">
+          <form @submit.prevent='addPost' method="post" enctype="multipart/form-data">
+            <input v-model="caption" type="text" />
+            <input type="file" name="post" @change='(event) => {
+              this.post = event.target.files[0];
+            }'>
+            <input type="submit" value="post">
           </form>
         </div>
       </footer>
     </section>
-
-
   </div>
 </template>
 
@@ -33,11 +35,10 @@ import Post from './Post.vue'
 export default {
   data() {
     return {
-      user: "",
+      user: {},
       loggedIn: false,
-      posts: [
-        //images will be BSON files
-      ],
+      caption: '',
+      post: ''
     };
   },
   methods: {
@@ -65,7 +66,15 @@ export default {
       }
     },
     async addPost() {
-
+      const data = new FormData();
+      data.set('caption', this.caption);
+      data.set('post', this.post);
+      data.set('author', this.user.id);
+      const response = await fetch(`http://127.0.0.1:3111/api/post/addPost`, {
+        method: 'POST',
+        body: data
+      });
+      // console.log(await response.json());
     },
     async loadPost() {
       const response = await fetch(`http://127.0.0.1:3111/api/post/posts`, {
@@ -76,7 +85,7 @@ export default {
         credentials: 'include',
       });
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
     },
     createCookie() {
       document.cookie = `user=${this.user.id}`;
@@ -96,9 +105,9 @@ export default {
   created() {
     this.authenticate();
   },
-  mounted() {
-    this.loadPost();
-  },
+  // mounted() {
+  //   this.loadPost();
+  // },
   watch: {
     loggedIn() {
       location.reload;
@@ -108,24 +117,6 @@ export default {
 };
 </script>
 
-<style scoped>
-.navbar {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  padding: 20px;
-  background-color: #f0f0f0;
-}
-
-.navbar a {
-  text-decoration: none;
-  color: #333;
-}
-
-.navbar button {
-  text-decoration: none;
-  background-color: blue;
-}
-</style>
+<style scoped></style>
 
 
