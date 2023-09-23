@@ -24,7 +24,6 @@
 </template>
 
 <script>
-// import 'bulma/css/bulma.css'
 export default {
 	data() {
 		return {

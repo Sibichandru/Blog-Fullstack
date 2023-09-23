@@ -1,44 +1,36 @@
 <template>
   <div>
-    <section>
-      <nav class="navbar" v-if="!loggedIn">
+    <section class="nav">
+      <nav class="nav" v-if="!loggedIn">
         <router-link to="/login">Login</router-link> |
         <router-link to="/signup">Signup</router-link>
       </nav>
-      <nav class="navbar" v-else>
-        <button class="button">
-          <font-awesome-icon :icon="['fas', 'circle-xmark']" />
+      <nav class="nav" v-else>
+        <button class="button" tooltip="Add Post" @click="redirect">
+          <router-link to="/AddPost" >
+          <font-awesome-icon icon="fa-solid fa-plus" />
+          </router-link>
         </button>
-        <button class="button is-primary" v-on:click="logout">Logout</button>
+        <button class="button is-primary" v-on:click="logout">
+          <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+        </button>
       </nav>
     </section>
     <section v-if="loggedIn">
-      <!-- <Post v-for="post in posts" :key="post.id" :image-url="post.imageUrl" /> -->
-      <footer class="footer">
-        <div class="container">
-          <form @submit.prevent='addPost' method="post" enctype="multipart/form-data">
-            <input v-model="caption" type="text" />
-            <input type="file" name="post" @change='(event) => {
-              this.post = event.target.files[0];
-            }'>
-            <input type="submit" value="post">
-          </form>
-        </div>
-      </footer>
+      <Post v-for="post in posts" :key="post.id" :image-url="post.imageUrl" />
     </section>
   </div>
 </template>
 
 
 <script>
-import Post from './Post.vue'
+import Post from '../components/Post.vue'
 export default {
   data() {
     return {
       user: {},
       loggedIn: false,
-      caption: '',
-      post: ''
+      posts: [],
     };
   },
   methods: {
@@ -65,16 +57,8 @@ export default {
         console.log(error);
       }
     },
-    async addPost() {
-      const data = new FormData();
-      data.set('caption', this.caption);
-      data.set('post', this.post);
-      data.set('author', this.user.id);
-      const response = await fetch(`http://127.0.0.1:3111/api/post/addPost`, {
-        method: 'POST',
-        body: data
-      });
-      // console.log(await response.json());
+    redirect(){
+      this.$router.push('/AddPost')
     },
     async loadPost() {
       const response = await fetch(`http://127.0.0.1:3111/api/post/posts`, {
@@ -105,9 +89,9 @@ export default {
   created() {
     this.authenticate();
   },
-  // mounted() {
-  //   this.loadPost();
-  // },
+  mounted() {
+    this.loadPost();
+  },
   watch: {
     loggedIn() {
       location.reload;
@@ -117,6 +101,15 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn {
+  margin: 10px;
+  width: 100%
+}
+
+.nav {
+  float: right
+}
+</style>
 
 

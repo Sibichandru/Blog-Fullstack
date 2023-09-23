@@ -28,6 +28,13 @@ const routes = [
     component:function(){
       return import('../views/Dashboard.vue');
     }
+  },
+  {
+    path:'/AddPost',
+    name:'post',
+    component:function(){
+      return import('../views/AddPost.vue');
+    }
   }
 ]
 

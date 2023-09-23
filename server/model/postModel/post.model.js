@@ -3,24 +3,24 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
-	caption:{
-		type:'string',
-		required:false
-	},
-	image:{
-		data:Buffer,
-		contentType: String
-	},
-	time:{
-		type:'string',
-		required:true,
-	},
-	author:{
-		type:mongoose.Types.ObjectId,
-		ref:'user',
-		required:true,
-	}
-
+  caption: {
+    type: "string",
+    required: true,
+    default:'no caption'
+  },
+  image: {
+    type: "string",
+    required: true,
+  },
+  likes: {
+    type: "number",
+    default: 1,
+  },
+  author: {
+    type: mongoose.Types.ObjectId,
+    ref: "user",
+    required: true,
+  },
 });
 
-export default mongoose.model("post",postSchema);
+export default mongoose.model("post", postSchema);
