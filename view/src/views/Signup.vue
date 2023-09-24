@@ -25,42 +25,40 @@
 
 <script>
 export default {
-	data() {
-		return {
-			username: '',
-			email: '',
-			password: '',
-			name: ''
-		};
-	},
-	methods: {
-		async signup() {
-			try {
-				const response = await fetch('http://127.0.0.1:3111/api/user/signup', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						username: this.username,
-						email: this.email,
-						password: this.password,
-						name: this.name
-					})
-				});
+  data() {
+    return {
+      username: '',
+      email: '',
+      password: '',
+      name: '',
+    };
+  },
+  methods: {
+    async signup() {
+      try {
+        const response = await fetch('http://127.0.0.1:3111/api/user/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: this.username,
+            email: this.email,
+            password: this.password,
+            name: this.name,
+          }),
+        });
 
-				if (response.status == 200) {
-					// alert('Signup successful!');
-					this.$router.push('/login');
-				} else {
-					alert('Signup failed. Please try again.');
-				}
-			} catch (error) {
-				console.error('Error signing up:', error);
-				alert('An error occurred. Please try again.');
-			}
-		}
-	}
+        if (response.status === 200) {
+          this.$router.push('/login');
+        } else {
+          throw new Error('Signup failed. Please try again.');
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+  },
 };
 </script>
 

@@ -1,26 +1,31 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
   caption: {
-    type: "string",
+    type: 'string',
     required: true,
     default:'no caption'
   },
   image: {
-    type: "string",
+    type: 'string',
     required: true,
   },
   likes: {
-    type: "number",
+    type: 'number',
     default: 1,
   },
   author: {
     type: mongoose.Types.ObjectId,
-    ref: "user",
+    ref: 'user',
     required: true,
   },
+  likedUsers:[{
+    type: mongoose.Types.ObjectId,
+    ref: 'user',
+    required: true,
+  }]
 });
 
-export default mongoose.model("post", postSchema);
+export default mongoose.model('post', postSchema);

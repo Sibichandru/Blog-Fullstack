@@ -1,53 +1,72 @@
 <template>
   <div class="image-post">
     <div class="image-container">
-      <img :src="imageUrl" alt="Image" />
+      <img :src='this.url + imageUrl' alt="Image" />
     </div>
     <div class="actions-container">
-      <button @click="likePost">Like</button>
-      <div class="likes">Likes: {{ likes }}</div>
-
-      <!-- create a new comment component -->
-      <!-- <div class="comments">
-        <div v-for="comment in comments" :key="comment.id" class="comment">
-          {{ comment.text }}
-        </div>
-        <input v-model="newComment" @keyup.enter="addComment" placeholder="Add a comment..." />
-      </div> -->
-
+      <button :id="postid" @click="likePost">Like</button>
+      <div class="likes">Likes: {{ totalLikes }}</div>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   props: {
     imageUrl: String,
+    likes: Number,
+    postid: String,
   },
   data() {
     return {
-      likes: 0,
+      url: 'http://localhost:3111/',
       liked: false,
-      // comments: [],
-      // newComment: "",
+      totalLikes: this.likes,
     };
   },
+  // WHEN START LOADING CHECK IF THE USER HAS LIKED THE POST ALREADY
+  // BY USING THE COOKIE IN USER DETAIL
+  // THEN TO RENDER THAT ADD PROP TO THE POST
   methods: {
-    likePost() {
+    async likePost(event) {
+      // eslint-disable-next-line no-underscore-dangle
+      const _id = event.target.id;
+      const likes = this.totalLikes;
       if (this.liked) {
-        this.likes--;
-        this.liked = false;
+        const like = await fetch('http://127.0.0.1:3111/api/post/unlike', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: _id,
+            likes,
+          }),
+          credentials: 'include',
+        });
+        if (like.status === 200) {
+          this.totalLikes -= 1;
+          this.liked = false;
+        }
       } else {
-        this.likes++;
-        this.liked = true;
+        const like = await fetch('http://127.0.0.1:3111/api/post/like', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: _id,
+            likes,
+          }),
+          credentials: 'include',
+        });
+        if (like.status === 200) {
+          this.totalLikes += 1;
+          this.liked = true;
+        }
       }
     },
-    // addComment() {
-    //   if (this.newComment.trim() !== "") {
-    //     this.comments.push({ id: Date.now(), text: this.newComment });
-    //     this.newComment = "";
-    //   }
-    // },
   },
 };
 </script>
@@ -87,9 +106,3 @@ export default {
   margin-bottom: 5px;
 }
 </style>
-
-
-
-
-
-

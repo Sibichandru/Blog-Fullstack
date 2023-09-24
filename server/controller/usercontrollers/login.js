@@ -2,8 +2,8 @@
 // import * as dotenv from 'dotenv' 
 // dotenv.config()
 import 'dotenv/config';
-import userModel from "../../model/userModel/user.model.js";
-import jwt from "jsonwebtoken";
+import userModel from '../../model/userModel/user.model.js';
+import jwt from 'jsonwebtoken';
 
 const login = async (req, res, next) => {
   let secret = process.env.SECRET;
@@ -15,11 +15,11 @@ const login = async (req, res, next) => {
     if (passOk){
       jwt.sign({ id: existingUser._id,username}, secret,{},(err,token)=>{
         if (err) throw err;
-        return res.cookie('token',token,{httpOnly:true,path:'/',sameSite:'none',secure:true}).json('ok')
+        return res.cookie('token',token,{httpOnly:true,path:'/',sameSite:'none',secure:true}).json('ok');
       });
     }
     else{
-      return res.status(401).json({ message: "Invalid Credentials" });
+      return res.status(401).json({ message: 'Invalid Credentials' });
     }
   } catch (error) {
     console.log(error);

@@ -1,23 +1,27 @@
 <template>
   <div>
     <section class="nav">
-      <nav class="nav" v-if="!loggedIn">
-        <router-link to="/login">Login</router-link> |
-        <router-link to="/signup">Signup</router-link>
-      </nav>
-      <nav class="nav" v-else>
-        <button class="button" tooltip="Add Post" @click="redirect">
-          <router-link to="/AddPost" >
-          <font-awesome-icon icon="fa-solid fa-plus" />
-          </router-link>
-        </button>
-        <button class="button is-primary" v-on:click="logout">
-          <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
-        </button>
-      </nav>
-    </section>
-    <section v-if="loggedIn">
-      <Post v-for="post in posts" :key="post.id" :image-url="post.imageUrl" />
+      <div>
+        <nav class="nav" v-if="!loggedIn">
+          <router-link to="/login">Login</router-link> |
+          <router-link to="/signup">Signup</router-link>
+        </nav>
+        <nav class="nav" v-else>
+          <button class="button" tooltip="Add Post" @click="redirect">
+            <router-link to="/AddPost" >
+              <font-awesome-icon icon="fa-solid fa-plus" />
+            </router-link>
+          </button>
+          <button class="button is-primary" v-on:click="logout">
+            <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+          </button>
+        </nav>
+      </div>
+      </section>
+      <section v-if="loggedIn">
+        <div>
+          <Post v-for="post in posts" :postid="post._id" :likes="post.likes" :image-url="post.image" />
+        </div>
     </section>
   </div>
 </template>
@@ -68,8 +72,8 @@ export default {
         },
         credentials: 'include',
       });
-      const data = await response.json();
-      // console.log(data);
+      this.posts = await response.json();
+      console.log(this.posts);
     },
     createCookie() {
       document.cookie = `user=${this.user.id}`;
@@ -106,10 +110,10 @@ export default {
   margin: 10px;
   width: 100%
 }
-
+/* 
 .nav {
   float: right
-}
+} */
 </style>
 
 

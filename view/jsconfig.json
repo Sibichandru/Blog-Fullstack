@@ -1,9 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
-    "baseUrl": "./",
+    "strict": true,
+    "jsx": "preserve",
+    "noImplicitAny": false,
+    "importHelpers": true,
     "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "types": [
+      "webpack-env",
+    ],
     "paths": {
       "@/*": [
         "src/*"
@@ -15,5 +25,12 @@
       "dom.iterable",
       "scripthost"
     ]
-  }
+  },
+  "include": [
+    "src/**/**.vue",
+    "src/preload.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

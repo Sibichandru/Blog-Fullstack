@@ -1,19 +1,34 @@
 <template>
-
-  <router-view/>
+  <router-view />
 </template>
 
 <script >
-import 'bulma/css/bulma.css'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'bulma/css/bulma.css';
 
-import Signup from './views/Signup.vue';
-import Login from './views/Login.vue';
-export default{
+export default {
   name: 'App',
-  components:{Signup,Login},
-  data(){
-    return{
-    }
-  }
-}
+  data() {
+    return {
+    };
+  },
+};
 </script>
+
+<!--
+'indent': [
+      'error',
+      2
+    ],
+    'linebreak-style': [
+      'error',
+      'linux'
+    ],
+    'quotes': [
+      'error',
+      'single'
+    ],
+    'semi': [
+      'error',
+      'always'
+    ] -->
