@@ -20,15 +20,21 @@
       </section>
       <section v-if="loggedIn">
         <div>
-          <Post v-for="post in posts" :postid="post._id" :likes="post.likes" :image-url="post.image" />
+          <Post
+            v-for="post in posts"
+            :postid="post._id"
+            :likes="post.likes"
+            :key="post.id"
+            :image-url="post.image"
+           />
         </div>
     </section>
   </div>
 </template>
 
-
 <script>
-import Post from '../components/Post.vue'
+import Post from '../components/Post.vue';
+
 export default {
   data() {
     return {
@@ -40,53 +46,50 @@ export default {
   methods: {
     async authenticate() {
       try {
-        const response = await fetch("http://127.0.0.1:3111/api/user/authenticated", {
-          method: "GET",
+        const response = await fetch('http://127.0.0.1:3111/api/user/authenticated', {
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
           },
-          credentials: "include"
+          credentials: 'include',
         });
-        if (response.status == 200) {
+        if (response.status === 200) {
           this.loggedIn = true;
           this.user = await response.json();
-          // console.log(this.user);
           this.createCookie();
-        }
-        else {
+        } else {
           this.loggedIn = false;
         }
-      }
-      catch (error) {
-        console.log(error);
+      } catch (error) {
+        throw new Error(error);
       }
     },
-    redirect(){
-      this.$router.push('/AddPost')
+    redirect() {
+      this.$router.push('/AddPost');
     },
     async loadPost() {
-      const response = await fetch(`http://127.0.0.1:3111/api/post/posts`, {
+      const response = await fetch('http://127.0.0.1:3111/api/post/posts', {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         credentials: 'include',
       });
       this.posts = await response.json();
-      console.log(this.posts);
     },
     createCookie() {
       document.cookie = `user=${this.user.id}`;
     },
     async logout() {
-      const response = await fetch("http://127.0.0.1:3111/api/user/logout", {
-        method: "POST",
-        credentials: "include"
+      const response = await fetch('http://127.0.0.1:3111/api/user/logout', {
+        method: 'POST',
+        credentials: 'include',
       });
       if (response.ok) {
-        document.cookie = `user=`;
+        document.cookie = 'user=';
         this.loggedIn = false;
       }
+      // eslint-disable-next-line no-restricted-globals
       location.reload();
     },
   },
@@ -98,10 +101,11 @@ export default {
   },
   watch: {
     loggedIn() {
+      // eslint-disable-next-line no-restricted-globals, no-unused-expressions
       location.reload;
-    }
+    },
   },
-  components: { Post }
+  components: { Post },
 };
 </script>
 
@@ -110,10 +114,4 @@ export default {
   margin: 10px;
   width: 100%
 }
-/* 
-.nav {
-  float: right
-} */
 </style>
-
-

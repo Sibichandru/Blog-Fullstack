@@ -1,36 +1,36 @@
 import mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  name:{
+  name: {
     type: 'string',
     required: true,
   },
-  email:{
+  email: {
     type: 'string',
     required: true,
   },
-  username:{
+  username: {
     type: 'string',
     required: true,
-    unique:true,
+    unique: true,
   },
-  password:{
-    type:'string',
+  password: {
+    type: 'string',
     required: true,
     minlength: 5,
   },
-  post:[{
-    type:mongoose.Types.ObjectId,
-    ref:'post',
-    required :'false'
+  post: [{
+    type: mongoose.Types.ObjectId,
+    ref: 'post',
+    required: 'false',
   }],
-  likedPosts:[{
-    type:mongoose.Types.ObjectId,
-    ref:'post',
-    required :'false'
-  }]
+  likedPosts: [{
+    type: mongoose.Types.ObjectId,
+    ref: 'post',
+    required: 'false',
+  }],
 });
 
-export default mongoose.model('user',userSchema);
+export default mongoose.model('user', userSchema);

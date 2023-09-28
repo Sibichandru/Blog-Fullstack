@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const postSchema = new Schema({
   caption: {
     type: 'string',
     required: true,
-    default:'no caption'
+    default: 'no caption',
   },
   image: {
     type: 'string',
@@ -14,18 +14,18 @@ const postSchema = new Schema({
   },
   likes: {
     type: 'number',
-    default: 1,
+    default: 0,
   },
   author: {
     type: mongoose.Types.ObjectId,
     ref: 'user',
     required: true,
   },
-  likedUsers:[{
+  likedUsers: [{
     type: mongoose.Types.ObjectId,
     ref: 'user',
     required: true,
-  }]
+  }],
 });
 
 export default mongoose.model('post', postSchema);
