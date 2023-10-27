@@ -31,5 +31,8 @@ module.exports = {
     'no-tabs': 0,
     indent: 2,
     'vue/multi-word-component-names': 0,
+    'vue/comment-directive': 0,
+    'import/no-extraneous-dependencies': 0,
+    'no-cond-assign': 0,
   },
 };

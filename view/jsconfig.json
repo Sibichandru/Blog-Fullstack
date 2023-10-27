@@ -28,9 +28,11 @@
   },
   "include": [
     "src/**/**.vue",
-    "src/preload.js"
+    "src/preload.js",
+    "src/**.js",
+    "src/**.vue"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
   ]
 }

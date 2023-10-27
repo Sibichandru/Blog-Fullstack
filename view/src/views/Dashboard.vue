@@ -9,9 +9,8 @@
 </template>
 
 <script>
-import { getCookie } from '../cookieUtils';
-// eslint-disable-next-line import/no-unresolved, import/extensions
-import router from '@/router';
+import getCookie from '../cookieUtils';
+import router from '../router/index';
 
 export default {
   data() {
@@ -23,7 +22,6 @@ export default {
   },
   methods: {
     async authenticate() {
-      // eslint-disable-next-line no-cond-assign
       if ((this.user = getCookie('user')) !== null) {
         this.loggedIn = true;
       } else {

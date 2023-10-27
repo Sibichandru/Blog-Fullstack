@@ -3,7 +3,6 @@
 </template>
 
 <script >
-// eslint-disable-next-line import/no-extraneous-dependencies
 import 'bulma/css/bulma.css';
 
 export default {

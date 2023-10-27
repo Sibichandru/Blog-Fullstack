@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       url: 'http://localhost:3111/',
-      liked: false,
+      // liked: false,
       totalLikes: this.likes,
     };
   },
@@ -33,38 +33,22 @@ export default {
       // eslint-disable-next-line no-underscore-dangle
       const _id = event.target.id;
       const likes = this.totalLikes;
-      if (this.liked) {
-        const like = await fetch('http://127.0.0.1:3111/api/post/unlike', {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: _id,
-            likes,
-          }),
-          credentials: 'include',
-        });
-        if (like.status === 200) {
-          this.totalLikes -= 1;
-          this.liked = false;
-        }
+      const like = await fetch('http://127.0.0.1:3111/api/post/like', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: _id,
+          likes,
+        }),
+        credentials: 'include',
+      });
+      const result = await like.json();
+      if (result === 'ok') {
+        this.totalLikes += 1;
       } else {
-        const like = await fetch('http://127.0.0.1:3111/api/post/like', {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: _id,
-            likes,
-          }),
-          credentials: 'include',
-        });
-        if (like.status === 200) {
-          this.totalLikes += 1;
-          this.liked = true;
-        }
+        this.totalLikes -= 1;
       }
     },
   },
