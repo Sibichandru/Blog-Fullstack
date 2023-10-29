@@ -36,6 +36,13 @@ const routes = [
       return import('../views/AddPost.vue');
     },
   },
+  {
+    path: '/password',
+    name: 'password',
+    component() {
+      return import('../views/Password.vue');
+    },
+  },
 ];
 
 const router = createRouter({

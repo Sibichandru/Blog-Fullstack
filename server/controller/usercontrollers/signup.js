@@ -2,8 +2,11 @@ import userModel from '../../model/userModel/user.model.js';
 // import bcrypt from "bcryptjs";
 
 const signup = async (req, res) => {
-  const { name, username, email, password } = req.body;
-  let existingUser, existingUserName;
+  const {
+    name, username, email, password,
+  } = req.body;
+  let existingUser; let
+    existingUserName;
   try {
     existingUser = await userModel.findOne({ email });
   } catch (error) {
@@ -14,32 +17,29 @@ const signup = async (req, res) => {
     return res
       .status(404)
       .json({ message: 'Already registered,Want to login' });
-  } else {
-    existingUserName = await userModel.findOne({ username });
-    if (existingUserName) {
-      console.log('existing name');
-      return res.status(404).json({ message: 'Try different Username' });
-    } else {
-      // let hashedPass = await bcrypt.hashSync(password, 20);
-      const user = new userModel({
-        name,
-        email,
-        username,
-        // password: hashedPass,
-        password,
-        blogs: [],
-      });
-      try {
-        await user.save();
-        console.log('success');
-        return res
-          .status(200)
-          .json({ message: 'success,redirecting to login' });
-      } catch (error) {
-        console.log(error);
-        return res.status(400).json({ message: 'something went wrong' });
-      }
-    }
+  }
+  existingUserName = await userModel.findOne({ username });
+  if (existingUserName) {
+    console.log('existing name');
+    return res.status(404).json({ message: 'Try different Username' });
+  }
+  // let hashedPass = await bcrypt.hashSync(password, 20);
+  const user = new userModel({
+    name,
+    email,
+    username,
+    password,
+    blogs: [],
+  });
+  try {
+    await user.save();
+    console.log('success');
+    return res
+      .status(200)
+      .json({ message: 'success,redirecting to login' });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: 'something went wrong' });
   }
 };
 

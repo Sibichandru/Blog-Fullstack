@@ -40,6 +40,9 @@ export default {
         body: data,
         credentials: 'include',
       });
+      if (response.status === 200) {
+        this.$router.push('/');
+      }
     },
   },
 };
