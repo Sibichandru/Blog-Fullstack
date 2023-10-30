@@ -1,9 +1,7 @@
-import userModel from '../../model/userModel/user.model.js';
+// import userModel from '../../model/userModel/user.model';
 
-const dashboard = async (req,res)=>{
-  const id = req.params.id;
-  const user = await userModel.findById(id);
-  return res.json(user);
+const dashboard = async (req, res) => {
+console.log(req);
 };
 
 export default dashboard;

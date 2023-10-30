@@ -34,5 +34,6 @@ module.exports = {
     'vue/comment-directive': 0,
     'import/no-extraneous-dependencies': 0,
     'no-cond-assign': 0,
+    'no-underscore-dangl0e': 0,
   },
 };

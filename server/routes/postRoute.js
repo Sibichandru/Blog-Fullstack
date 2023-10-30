@@ -1,9 +1,8 @@
-/* eslint-disable import/extensions */
 import express from 'express';
 import multer from 'multer';
 
-import { addPost, posts } from '../controller/postcontrollers/posts.js';
-import like from '../controller/postcontrollers/post-action.js';
+import { addPost, posts } from '../controller/postcontrollers/posts';
+import like from '../controller/postcontrollers/post-action';
 
 const upload = multer({ dest: 'uploads' });
 const router = express.Router();

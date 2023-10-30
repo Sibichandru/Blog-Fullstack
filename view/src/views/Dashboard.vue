@@ -1,28 +1,39 @@
 <template>
   <div v-if="loggedIn">
     <h1>Dashboard</h1>
-    <form @submit.prevent="" method="post">
-      <input type="text" v-model="data.name" />
-
-    </form>
+    <Profile :name="this.username"></Profile>
+    <div>
+          <Post
+            v-for="post in posts"
+            :postid="post._id"
+            :likes="post.likes"
+            :key="post.id"
+            :image-url="post.image"
+           />
+        </div>
   </div>
 </template>
 
 <script>
 import getCookie from '../cookieUtils';
-import router from '../router/index';
+import Profile from '../components/Profile.vue';
+import Post from '../components/Post.vue';
 
 export default {
   data() {
     return {
-      user: getCookie('user'),
+      username: getCookie('username'),
       data: {},
       loggedIn: false,
+      posts: [],
     };
+  },
+  components: {
+    Profile, Post,
   },
   methods: {
     async authenticate() {
-      if ((this.user = getCookie('user')) !== null) {
+      if ((this.user = getCookie('username')) !== null) {
         this.loggedIn = true;
       } else {
         try {
@@ -43,35 +54,33 @@ export default {
         }
       }
     },
-    async loadProfile() {
-      // eslint-disable-next-line no-cond-assign
-      if ((this.user = getCookie('user')) !== null) {
-        this.loggedIn = true;
-        const profileLoader = await fetch(`http://127.0.0.1:3111/api/user/dashboard/${this.user}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-        try {
-          const data = await (profileLoader.json());
-          this.data = data;
-        } catch (error) {
-          throw new Error(error);
+    async loadPost() {
+      const response = await fetch('http://127.0.0.1:3111/api/post/posts', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const data = await response.json();
+      this.posts = data.map((post) => {
+        if (post.author.username === this.username) {
+          return post;
         }
-      } else {
-        this.loggedIn = false;
-        router.push('/login');
-      }
+        console.log(this.posts);
+      });
+      console.log(this.posts);
     },
     createCookie() {
+      document.cookie = `username=${this.user.username}`;
       document.cookie = `user=${this.user.id}`;
     },
   },
-  beforeMount() {
-    // await this.authenticate();
-    this.loadProfile();
+  created() {
+    this.authenticate();
+  },
+  mounted() {
+    this.loadPost();
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <h2 class="title head has-text-centered">Login</h2>
+  <h2 class="title head has-text-centered">Change Password</h2>
   <div class="container is-flex is-justify-content-center">
   <form @submit.prevent="change">
     <div class="field">
@@ -8,13 +8,13 @@
 		</div>
     <div class="field">
       <label class="label " for="oldPassword">oldPassword:</label>
-      <input type="text" class="input is-primary" id="oldPassword" v-model="username" required>
+      <input type="text" class="input is-primary" id="oldPassword" v-model="oldPassword" required>
     </div>
     <div class="field" >
       <label class="label" for="password">Password:</label>
       <input type="password" class="input is-primary" id="password" v-model="password" required>
     </div>
-    <button type="submit" class="button btn is-primary">Login</button>
+    <button type="submit" class="button btn is-primary">Change</button>
   </form>
 </div>
 </template>

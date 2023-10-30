@@ -3,8 +3,7 @@
 // dotenv.config()
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
-// eslint-disable-next-line import/extensions
-import userModel from '../../model/userModel/user.model.js';
+import userModel from '../../model/userModel/user.model';
 
 const login = async (req, res) => {
   const secret = process.env.SECRET;
@@ -12,6 +11,9 @@ const login = async (req, res) => {
   let existingUser;
   try {
     existingUser = await userModel.findOne({ username });
+    if (!existingUser) {
+      return res.status(401).json({ message: 'Invalid Credentials' });
+    }
     const passOk = password === existingUser.password;
     if (passOk) {
       jwt.sign({ id: existingUser._id, username }, secret, {}, (err, token) => {

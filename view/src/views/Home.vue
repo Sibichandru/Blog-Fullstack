@@ -79,6 +79,7 @@ export default {
     },
     createCookie() {
       document.cookie = `user=${this.user.id}`;
+      document.cookie = `username=${this.user.username}`;
     },
     async logout() {
       const response = await fetch('http://127.0.0.1:3111/api/user/logout', {

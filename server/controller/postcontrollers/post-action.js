@@ -1,8 +1,7 @@
-/* eslint-disable import/extensions */
 import jwt from 'jsonwebtoken';
 
-import postModel from '../../model/postModel/post.model.js';
-import userModel from '../../model/userModel/user.model.js';
+import postModel from '../../model/postModel/post.model';
+import userModel from '../../model/userModel/user.model';
 
 export default async function like(req, res) {
   const { id } = req.body;
@@ -27,7 +26,6 @@ export default async function like(req, res) {
   try {
     if (isliked) {
       likes -= 1;
-      // return res.status(201).json('already liked');
       await postModel.updateOne({ _id: id }, { likes });
       likedUser.pop(cookieUser);
       await postModel.updateOne({ _id: id }, { likedUsers: likedUser });

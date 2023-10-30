@@ -1,7 +1,7 @@
 <template>
   <div>
   <p>{{ this.profileName }}</p>
-  <button onclick="changePassword">change password</button>
+  <button @click="changePassword()">change password</button>
   </div>
 </template>
 

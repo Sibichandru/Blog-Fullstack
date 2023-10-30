@@ -25,9 +25,6 @@ export default {
       totalLikes: this.likes,
     };
   },
-  // WHEN START LOADING CHECK IF THE USER HAS LIKED THE POST ALREADY
-  // BY USING THE COOKIE IN USER DETAIL
-  // THEN TO RENDER THAT ADD PROP TO THE POST
   methods: {
     async likePost(event) {
       // eslint-disable-next-line no-underscore-dangle
