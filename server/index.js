@@ -7,8 +7,8 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import userRoute from './routes/userRoute';
-import postRoute from './routes/postRoute';
+import userRoute from './routes/userRoute.js';
+import postRoute from './routes/postRoute.js';
 
 const app = express();
 const port = process.env.PORT || 3111;

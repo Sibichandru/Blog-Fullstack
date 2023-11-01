@@ -3,7 +3,7 @@
 // dotenv.config()
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
-import userModel from '../../model/userModel/user.model';
+import userModel from '../../model/userModel/user.model.js';
 
 const login = async (req, res) => {
   const secret = process.env.SECRET;

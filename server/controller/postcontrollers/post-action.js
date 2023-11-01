@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-import postModel from '../../model/postModel/post.model';
-import userModel from '../../model/userModel/user.model';
+import postModel from '../../model/postModel/post.model.js';
+import userModel from '../../model/userModel/user.model.js';
 
 export default async function like(req, res) {
   const { id } = req.body;

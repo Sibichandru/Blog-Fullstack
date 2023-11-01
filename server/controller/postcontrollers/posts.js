@@ -1,6 +1,6 @@
 import fs from 'fs';
 import jwt from 'jsonwebtoken';
-import postModel from '../../model/postModel/post.model';
+import postModel from '../../model/postModel/post.model.js';
 
 export const addPost = async (req, res) => {
   let cookieUser;
